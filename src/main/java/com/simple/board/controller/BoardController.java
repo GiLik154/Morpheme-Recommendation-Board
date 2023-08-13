@@ -1,7 +1,7 @@
-package com.simple.board.contorller;
+package com.simple.board.controller;
 
-import com.simple.board.contorller.req.BoardCreateReq;
-import com.simple.board.contorller.req.BoardUpdaterReq;
+import com.simple.board.controller.req.BoardCreateReq;
+import com.simple.board.controller.req.BoardUpdaterReq;
 import com.simple.board.domain.board.domain.Board;
 import com.simple.board.domain.board.domain.BoardRepository;
 import com.simple.board.domain.board.domain.RecommendBoardRepository;

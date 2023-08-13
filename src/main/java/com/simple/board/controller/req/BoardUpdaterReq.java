@@ -1,4 +1,4 @@
-package com.simple.board.contorller.req;
+package com.simple.board.controller.req;
 
 import com.simple.board.domain.board.service.dto.BoardUpdaterCommand;
 import lombok.Getter;
