@@ -1,0 +1,43 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"/>
+</head>
+
+<table class="table table-sm">
+    <thead>
+    <tr>
+        <th class="text-center">제목</th>
+        <th class="text-center">작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boards.content}">
+        <td class="text-center">
+            <a th:href="@{/board/read/{id}(id=${board.id})}" th:text="${board.title}">게시글 제목</a>
+        </td>
+        <td class="text-center" th:text="${board.createDate}">작성일</td>
+    </tr>
+    <tr>
+        <td colspan="2" class="text-center">
+            <a href="/board/create" class="btn btn-primary">글 추가</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${boards.totalPages > 1}">
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li th:class="${boards.first ? 'disabled' : ''}" class="page-item">
+                <a th:if="${boards.first}" href="#" class="page-link">Previous</a>
+                <a th:if="${not boards.first}" th:href="@{${'/board/list?page=' + (boards.number - 1) + '&size=' + boards.size}}" class="page-link">Previous</a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(0, boards.totalPages - 1)}" th:class="${boards.number == page ? 'active' : ''}" class="page-item">
+                <a th:href="@{${'/board/list?page=' + page + '&size=' + boards.size}}" th:text="${page + 1}" class="page-link"></a>
+            </li>
+            <li th:class="${boards.last ? 'disabled' : ''}" class="page-item">
+                <a th:if="${boards.last}" href="#" class="page-link">Next</a>
+                <a th:if="${not boards.last}" th:href="@{${'/board/list?page=' + (boards.number + 1) + '&size=' + boards.size}}" class="page-link">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>

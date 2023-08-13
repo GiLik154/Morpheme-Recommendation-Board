@@ -1,0 +1,72 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"/>
+  <style>
+    .container {
+      margin: 0 auto;
+    }
+
+    .recommend-table {
+      width: 600px;
+    }
+    h3 {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<!-- board -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h2 class="text-center mb-4" th:text="${board.title}">게시글 제목</h2>
+      <p class="text-center mb-4" th:text="${board.contents}">게시글 내용</p>
+      <p class="text-center mb-4" th:text="${board.createDate}">작성 날짜</p>
+
+      <div class="text-center">
+        <a class="btn btn-primary mr-2" th:href="@{/board/update/{boardId}(boardId=${board.id})}">수정</a>
+        <form th:action="@{/board/delete/{boardId}(boardId=${board.id})}" method="post" class="d-inline">
+          <button type="submit" class="btn btn-danger">삭제</button>
+        </form>
+        <a th:href="@{/board/list}" class="btn btn-primary">메인페이지로 이동</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- recommendBoards -->
+<h3>추천 목록</h3>
+
+<table class="recommend-table container">
+  <thead>
+  <tr>
+    <th>제목</th>
+    <th>작성 날짜</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="recommendBoard : ${recommendBoards.content}">
+    <td>
+      <a th:href="@{/board/read/{boardId}(boardId=${recommendBoard.id})}" th:text="${recommendBoard.title}">게시글 제목</a>
+    </td>
+    <td th:text="${recommendBoard.createDate}">작성 날짜</td>
+  </tr>
+  </tbody>
+</table>
+
+<div th:if="${recommendBoards.totalPages > 1}">
+  <nav>
+    <ul class="pagination">
+      <li th:class="${recommendBoards.first ? 'disabled' : ''}">
+        <a th:if="${recommendBoards.first}" class="page-link" href="#">Previous</a>
+        <a th:if="${not recommendBoards.first}" th:href="@{${'/boards/read/' + board.id + '?page=' + (recommendBoards.number - 1) + '&size=' + recommendBoards.size}}" class="page-link">Previous</a>
+      </li>
+      <li th:each="page : ${#numbers.sequence(0, recommendBoards.totalPages - 1)}" th:class="${recommendBoards.number == page ? 'active' : ''}" class="page-item">
+        <a th:href="@{${'/board/list?page=' + page + '&size=' + recommendBoards.size}}" th:text="${page + 1}" class="page-link"></a>
+      </li>
+      <li th:class="${recommendBoards.last ? 'disabled' : ''}">
+        <a th:if="${recommendBoards.last}" class="page-link" href="#">Next</a>
+        <a th:if="${not recommendBoards.last}" th:href="@{${'/boards/read/' + board.id + '?page=' + (recommendBoards.number + 1) + '&size=' + recommendBoards.size}}" class="page-link">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>
